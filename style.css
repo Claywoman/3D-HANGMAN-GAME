@@ -1,0 +1,576 @@
+:root {
+    --primary: #8a2be2;
+    --secondary: #00fa9a;
+    --accent: #ff69b4;
+    --dark: #121212;
+    --darker: #0a0a0a;
+    --light: #f5f6fa;
+    --danger: #ff5555;
+    --warning: #ffd700;
+    --neon-glow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', sans-serif;
+    background-color: var(--darker);
+    color: var(--light);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 50px;
+}
+
+.game-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+    min-height: 100vh;    
+    padding: 20px 0;
+}
+
+.game-container {
+    width: 90%;
+    max-width: 800px;
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8),
+                inset 0 0 10px rgba(138, 43, 226, 0.3);
+    padding: 30px;
+    transform-style: preserve-3d;
+    transform: translateZ(20px);
+    border: 1px solid var(--primary);
+    position: relative;
+    overflow: hidden;
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.game-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        to bottom right,
+        rgba(138, 43, 226, 0.1) 0%,
+        rgba(138, 43, 226, 0) 60%
+    );
+    transform: rotate(30deg);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.game-title {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    text-shadow: 0 0 10px var(--primary);
+    font-weight: 700;
+}
+
+.setup-screen, .game-screen {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.setup-screen.active, .game-screen.active {
+    display: flex;
+}
+
+.option-group {
+    margin-bottom: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+.option-group h2 {
+    margin-bottom: 20px;
+    color: var(--secondary);
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 5px var(--secondary);
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+/* ALL BUTTON STYLES ARE NOW EXPLICITLY DEFINED PER CLASS */
+
+/* Difficulty Buttons */
+.difficulty-btn {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem; /* Keeping this smaller for difficulty/category */
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    
+    background: linear-gradient(135deg, var(--primary) 0%, #6a0dad 100%); /* Purple gradient */
+    color: white;
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4); /* Purple shadow */
+}
+
+/* Category Buttons */
+.category-btn {
+    padding: 15px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem; /* Keeping this smaller for difficulty/category */
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+
+    background: rgba(40, 40, 40, 0.8); /* Dark transparent background */
+    border: 2px solid var(--primary); /* Purple border */
+    color: var(--light); /* Light text */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Dark shadow */
+}
+
+/* Start Button */
+.start-btn {
+    padding: 15px 40px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem; /* Unified font-size for main action buttons */
+    font-weight: 700; /* This ensures it's bold */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+
+    background: var(--primary); /* Purple background */
+    color: var(--light); /* NOW WHITE */
+    margin-top: 20px;
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4); /* Purple shadow */
+}
+
+/* How To Play button */
+.how-to-play-btn {
+    padding: 15px 40px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem; /* Unified font-size for main action buttons */
+    font-weight: 700; /* This ensures it's bold */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    
+    background: var(--primary); /* Purple background */
+    color: var(--light); /* NOW WHITE */
+    margin-top: 20px; /* Aligns with start-btn's margin-top */
+    box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4); /* Purple shadow */
+    text-decoration: none; /* Remove underline for anchor tag */
+    display: flex; /* Allow flex properties for content */
+    align-items: center; /* Center text vertically */
+    justify-content: center; /* Center text horizontally */
+}
+
+/* Hover and Active states (shared properties for all these buttons) */
+.difficulty-btn:hover,
+.category-btn:hover,
+.start-btn:hover,
+.how-to-play-btn:hover {
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 10px 20px rgba(138, 43, 226, 0.6); /* Unified hover shadow (purple) */
+}
+
+.difficulty-btn:active,
+.category-btn:active,
+.start-btn:active,
+.how-to-play-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* ::after pseudo-element for hover glow (shared for all these buttons) */
+.difficulty-btn::after,
+.category-btn::after,
+.start-btn::after,
+.how-to-play-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+    z-index: -1;
+}
+
+.difficulty-btn:hover::after,
+.category-btn:hover::after,
+.start-btn:hover::after,
+.how-to-play-btn:hover::after {
+    transform: translateX(0);
+}
+
+/* Active state for selected Difficulty/Category buttons */
+.difficulty-btn.active, .category-btn.active {
+    box-shadow: 0 0 15px var(--primary),
+                0 0 30px rgba(138, 43, 226, 0.5);
+    transform: translateY(-5px) scale(1.05);
+}
+
+/* Game screen styles */
+.game-header {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.category-display, .guesses-left {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--secondary);
+    margin: 10px 0;
+    text-shadow: 0 0 5px var(--secondary);
+}
+
+.hangman-container {
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+    position: relative;
+    transform-style: preserve-3d;
+}
+
+.hangman-part {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallows {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 10px;
+    height: 250px;
+    background: var(--primary);
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.7);
+}
+
+.head {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 3px solid var(--light);
+}
+
+.body {
+    width: 10px;
+    height: 100px;
+    top: 110px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--light);
+}
+
+.left-arm {
+    width: 70px;
+    height: 10px;
+    top: 140px;
+    left: calc(50% - 35px);
+    transform: rotate(30deg);
+    transform-origin: right center;
+    background: var(--light);
+}
+
+.right-arm {
+    width: 70px;
+    height: 10px;
+    top: 140px;
+    left: 50%;
+    transform: rotate(-30deg);
+    transform-origin: left center;
+    background: var(--light);
+}
+
+.left-leg {
+    width: 80px;
+    height: 10px;
+    top: 210px;
+    left: calc(50% - 40px);
+    transform: rotate(-20deg);
+    transform-origin: right center;
+    background: var(--light);
+}
+
+.right-leg {
+    width: 80px;
+    height: 10px;
+    top: 210px;
+    left: 50%;
+    transform: rotate(20deg);
+    transform-origin: left center;
+    background: var(--light);
+}
+
+.word-display {
+    font-size: 2rem;
+    letter-spacing: 10px;
+    margin: 30px 0;
+    font-weight: bold;
+    color: var(--light);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    text-align: center;
+    min-height: 50px;
+}
+
+.keyboard {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.keyboard button {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    background: rgba(138, 43, 226, 0.2);
+    color: var(--light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.keyboard button:hover:not(:disabled) {
+    background: var(--primary);
+    transform: translateY(-3px);
+}
+
+.keyboard button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.keyboard button.correct {
+    background: var(--secondary);
+    color: var(--dark);
+}
+
+.keyboard button.incorrect {
+    background: var(--danger);
+}
+
+.message {
+    font-size: 1.5rem;
+    margin: 20px 0;
+    text-align: center;
+    font-weight: bold;
+    min-height: 40px;
+    text-shadow: 0 0 10px currentColor;
+}
+
+.message.win {
+    color: var(--secondary);
+}
+
+.message.lose {
+    color: var(--danger);
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent);
+    animation: confetti-fall 3s linear forwards;
+    z-index: 1000;
+}
+
+/* ======================================================= */
+/* START: MODAL STYLES */
+/* ======================================================= */
+
+/* This is the semi-transparent background behind the modal */
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+}
+
+/* The Modal (popup) box */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 650px;
+    
+    background-color: var(--darker);
+    
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(0, 250, 154, 0.4),
+                inset 0 0 10px rgba(138, 43, 226, 0.2);
+    border: 1px solid var(--primary);
+    
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Class to hide elements */
+.hidden {
+    display: none;
+}
+
+/* Modal Header styling */
+.modal-header {
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--primary);
+}
+
+.modal-header h2 {
+    margin: 0;
+    font-size: 1.8em;
+    color: var(--secondary);
+    text-shadow: 0 0 8px var(--secondary);
+}
+
+/* The Close Button (X) */
+.close-btn {
+    color: var(--primary);
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--light);
+    text-decoration: none;
+    text-shadow: 0 0 10px var(--light);
+}
+
+/* Modal Body with the policy text */
+.modal-body {
+    padding: 25px;
+    max-height: 65vh;
+    overflow-y: auto;
+    color: var(--light);
+}
+
+.modal-body h3 {
+    margin-top: 25px;
+    margin-bottom: 12px;
+    font-size: 1.3em;
+    color: var(--primary);
+    text-shadow: 0 0 5px rgba(138, 43, 226, 0.5);
+}
+
+.modal-body p, .modal-body ul {
+    line-height: 1.8;
+    color: var(--light);
+}
+
+.modal-body ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.modal-body strong {
+    color: var(--secondary);
+}
+
+/* Optional: Style for the trigger link */
+.policy-link {
+    cursor: pointer;
+    color: var(--primary);
+    text-decoration: underline;
+    font-size: 0.9em;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    padding: 5px 10px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.policy-link:hover {
+    color: var(--secondary);
+    text-shadow: 0 0 5px var(--secondary);
+}
+
+/* A simple fade-in animation for the modal */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -40%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+}

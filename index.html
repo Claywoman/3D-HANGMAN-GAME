@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Hangman Game</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <div class="game-container">
+            <div id="setup-screen" class="setup-screen active">
+                <h1 class="game-title">3D HANGMAN</h1>
+                <div class="setup-options">
+                    <div class="option-group">
+                        <h2>CHOOSE DIFFICULTY</h2>
+                        <div class="button-group">
+                            <button class="difficulty-btn" data-difficulty="easy">EASY</button>
+                            <button class="difficulty-btn" data-difficulty="medium">MEDIUM</button>
+                            <button class="difficulty-btn" data-difficulty="hard">HARD</button>
+                        </div>
+                    </div>
+                    
+                    <div class="option-group">
+                        <h2>CHOOSE CATEGORY</h2>
+                        <div class="button-group">
+                            <button class="category-btn" data-category="animals">ANIMALS</button>
+                            <button class="category-btn" data-category="countries">COUNTRIES</button>
+                            <button class="category-btn" data-category="tech">TECH</button>
+                            <button class="category-btn" data-category="food">FOOD</button>
+                            <button class="category-btn" data-category="games">GAMES</button>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="start-btn" id="start-btn">START GAME</button>
+                        <a href="https://github.com/Claywoman/HANGMAN-TERMS-PRIVACY-POLICY" id="open-instructions-btn" class="start-btn how-to-play-btn">HOW TO PLAY</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="game-screen" class="game-screen">
+                <div class="game-header">
+                    <h1 class="game-title">3D HANGMAN</h1>
+                    <div id="category-display" class="category-display"></div>
+                    <div id="guesses-left" class="guesses-left"></div>
+                    <div id="timer" class="guesses-left"></div>
+                </div>
+
+                <div class="game-content">
+                    <div id="hangman-container" class="hangman-container"></div>
+                    <div id="word-display" class="word-display"></div>
+                    <div id="keyboard" class="keyboard"></div>
+                    <div id="message" class="message"></div>
+                </div>
+            </div>
+
+            <audio id="click-sound" src="click.mp3" preload="auto"></audio>
+            <audio id="win-sound" src="winner.mp3" preload="auto"></audio>
+            <audio id="lose-sound" src="loser.mp3" preload="auto"></audio>
+            <audio id="draw-sound" src="https://assets.mixkit.co/sfx/preview/mixkit-pencil-writing-1194.mp3" preload="auto"></audio>
+            
+            <a href="#" id="open-policy-btn" class="policy-link">Terms & Privacy Policy</a>
+        </div>
+    </div>
+
+    <div id="modal-overlay" class="hidden"></div>
+
+    <div id="policy-modal" class="modal hidden">
+        <div class="modal-header">
+            <h2>Terms & Privacy Policy</h2>
+            <span class="close-btn">&times;</span>
+        </div>
+        <div class="modal-body">
+            <h3>1. Terms of Service</h3>
+            <p>
+                Welcome to Hangman! By playing this game, you agree to these terms. This game is provided for entertainment purposes only. You agree not to cheat, disrupt the service, or attempt to reverse-engineer the game's code. We reserve the right to modify these terms at any time.
+            </p>
+
+            <h3>2. Privacy Policy</h3>
+            <p>
+                We respect your privacy. This Hangman game is designed to run entirely in your browser.
+            </p>
+            <ul>
+                <li><strong>Data Collection:</strong> We do not collect, store, or share any personal information, game progress, or user data from your device.</li>
+                <li><strong>Cookies:</strong> This game does not use cookies to track you. Any local storage used is solely for saving game state (e.g., current word, guesses) and settings on your own computer.</li>
+                <li><strong>Third Parties:</strong> We do not share any data with third parties.</li>
+            </ul>
+
+            <h3>3. Disclaimers</h3>
+            <p>
+                This game is provided "as is" without any warranties. We are not liable for any issues that may arise from playing it. Have fun and good luck!
+            </p>
+        </div>
+    </div>
+
+    <div id="instructions-modal" class="modal hidden">
+        <div class="modal-header">
+            <h2>How to Play Hangman</h2>
+            <span class="close-btn">&times;</span>
+        </div>
+        <div class="modal-body">
+            <h3>1. Game Objective</h3>
+            <p>
+                Guess the hidden word before the Hangman figure is fully drawn! You have a limited number of incorrect guesses (mistakes).
+            </p>
+
+            <h3>2. Getting Started</h3>
+            <ul>
+                <li><strong>Choose Difficulty:</strong> Select Easy, Medium, or Hard. This determines the length and complexity of the words.</li>
+                <li><strong>Choose Category:</strong> Pick a topic like Animals, Countries, or Food. The hidden word will be from this category.</li>
+                <li><strong>Start Game:</strong> Click the "START GAME" button to begin!</li>
+            </ul>
+
+            <h3>3. Making Guesses</h3>
+            <ul>
+                <li>A series of dashes will represent the hidden word.</li>
+                <li>Use the on-screen keyboard to click letters you want to guess.</li>
+                <li>If your guessed letter is in the word, it will appear in all correct positions.</li>
+                <li>If your guessed letter is NOT in the word, a part of the Hangman figure will be drawn, and your "Guesses Left" will decrease.</li>
+                <li>You cannot guess the same letter twice.</li>
+            </ul>
+
+            <h3>4. Winning & Losing</h3>
+            <ul>
+                <li><strong>Win:</strong> If you correctly guess all the letters in the word before the Hangman is complete, you win!</li>
+                <li><strong>Lose:</b> If the Hangman figure is fully drawn before you guess the word, you lose!</li>
+            </ul>
+
+            <h3>5. Sound Effects</h3>
+            <p>
+                The game includes various sound effects for clicks, wins, and losses to enhance your experience. Ensure your volume is adjusted as desired.
+            </p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
