@@ -1,0 +1,40 @@
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore log files
+*.log
+
+# Ignore audio or paid assets (custom folder if used)
+paid-assets/
+premium-assets/
+
+# Ignore VS Code settings (if you're using VS Code)
+.vscode/
+
+# Ignore node modules (in case you add npm later)
+node_modules/
+
+# Ignore build and distribution folders (if created for publishing)
+dist/
+build/
+
+# Ignore environment or config files (e.g. secrets, API keys)
+.env
+*.env
+
+# Ignore backups or temporary files
+*.bak
+*.tmp
+*.swp
+
+# Ignore OS generated folders
+__MACOSX/
+
+# Ignore Android-specific build folders (if you build the app using Cordova or similar)
+platforms/
+plugins/
+
+# Ignore any Play Store build output
+release/
+app-release.apk
